@@ -12,7 +12,8 @@ import ru.bmstu.mobile.crypto.model.Data
 
 @Composable
 fun CryptoList(
-    values: State<Data?>
+    values: State<Data?>,
+    onItemSelected: (Int) -> Unit = {}
 ) {
     values.value?.data?.let {
         LazyColumn {
@@ -20,7 +21,9 @@ fun CryptoList(
                 Item(
                     data = cryptoItem,
                     modifier = Modifier.fillMaxWidth().padding(8.dp)
-                )
+                ) {
+                    onItemSelected.invoke(it)
+                }
             }
         }
     }

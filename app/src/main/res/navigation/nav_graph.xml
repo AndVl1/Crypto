@@ -9,5 +9,13 @@
     <fragment
         android:id="@+id/cryptoListFragment"
         android:name="ru.bmstu.mobile.crypto.main.CryptoListFragment"
-        android:label="CryptoListFragment" />
+        android:label="CryptoListFragment" >
+        <action
+            android:id="@+id/action_cryptoListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="ru.bmstu.mobile.crypto.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
