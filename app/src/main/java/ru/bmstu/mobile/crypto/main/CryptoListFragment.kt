@@ -19,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.bmstu.mobile.crypto.R
 import ru.bmstu.mobile.crypto.compose.theme.MainTheme
+import ru.bmstu.mobile.crypto.extensions.openLink
 import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.model.DataX
 import ru.bmstu.mobile.crypto.network.LoadingState
@@ -53,7 +54,8 @@ class CryptoListFragment : Fragment() {
                         state = viewModel.cryptoHistory.collectAsState(initial = LoadingState.Loading),
                         onItemSelected = { item -> onItemSelected(item) },
                         onCurrencySelected = { currency -> onCryptoCurrencySelected(currency) },
-                        defCryptoCurrency = viewModel.currency.value
+                        defCryptoCurrency = viewModel.currency.value,
+                        onLinkClicked = { context.openLink("https://min-api.cryptocompare.com/documentation") }
                     )
                 }
             }
