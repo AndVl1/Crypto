@@ -9,5 +9,5 @@ class CryptoRepository @Inject constructor(
     private val apiHelper: ApiHelper
 ) : Repository {
 
-    suspend fun getCurrency() = apiHelper.getHistory()
+    suspend fun getCurrency(fsym: String, tsym: String) = apiHelper.getHistory(fsym, tsym)
 }

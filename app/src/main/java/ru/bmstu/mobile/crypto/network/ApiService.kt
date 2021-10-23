@@ -10,9 +10,9 @@ interface ApiService {
     @GET("/data/v2/histoday")
     suspend fun getHistory(
         @Query("fsym")
-        country: String = "BTC",
+        fsym: String = "BTC",
         @Query("tsym")
-        category: String = "USD",
+        tsym: String = "USD",
         @Query("limit")
         size: String = "10"
     ): ApiResponse<CryptoResponse>

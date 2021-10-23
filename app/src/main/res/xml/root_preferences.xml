@@ -32,4 +32,20 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/common_header">
+
+        <ListPreference
+            app:key="currency"
+            app:title="@string/currency_title"
+            app:entries="@array/currency_entries"
+            app:entryValues="@array/currency_entries"/>
+
+        <EditTextPreference
+            app:key="days"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="3"
+            app:title="@string/days_title" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
