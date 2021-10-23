@@ -13,18 +13,17 @@ class CryptoRepository @Inject constructor(
 ) : Repository {
 
     suspend fun getCurrency() = apiHelper.getHistory(
-        from = preferences.getString(CRYPTO_CURRENCY_KEY),
-        to = preferences.getNullableString(CURRENCY_KEY) ?: "USD",
+        from = getCryptoCurrencyType(),
+        to = getRealCurrencyType(),
         limit = "10",
         aggregate = 1
     )
 
     fun updateCurrency(currency: CryptoCurrency) {
-        preferences.putString(CRYPTO_CURRENCY_KEY, currency.name)
+        preferences.putString(CurrencyType.CRYPTO, currency.name)
     }
 
-    companion object {
-        private const val CRYPTO_CURRENCY_KEY = "crypto"
-        private const val CURRENCY_KEY = "real"
-    }
+    fun getCryptoCurrencyType() = preferences.getString(CurrencyType.CRYPTO)
+
+    fun getRealCurrencyType() = preferences.getNullableString(CurrencyType.REAL) ?: "USD"
 }
