@@ -5,5 +5,5 @@ import ru.bmstu.mobile.crypto.model.CryptoResponse
 
 interface ApiHelper {
 
-    suspend fun getHistory(): ApiResponse<CryptoResponse>
+    suspend fun getHistory(fsym: String, tsym: String): ApiResponse<CryptoResponse>
 }

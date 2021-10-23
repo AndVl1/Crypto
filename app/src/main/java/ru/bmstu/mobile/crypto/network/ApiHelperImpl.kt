@@ -7,7 +7,7 @@ import javax.inject.Inject
 class ApiHelperImpl @Inject constructor(
     private val apiService: ApiService
 ) : ApiHelper {
-    override suspend fun getHistory(): ApiResponse<CryptoResponse> {
-        return apiService.getHistory()
+    override suspend fun getHistory(fsym : String, tsym : String): ApiResponse<CryptoResponse> {
+        return apiService.getHistory(fsym, tsym)
     }
 }

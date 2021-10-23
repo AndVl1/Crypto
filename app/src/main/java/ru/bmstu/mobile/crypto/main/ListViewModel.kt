@@ -21,9 +21,9 @@ class ListViewModel @Inject constructor(
     private val _cryptoHistory = MutableSharedFlow<Data?>()
     val cryptoHistory = _cryptoHistory.asSharedFlow()
 
-    fun init() {
+    fun init(fsym: String, tsym: String) {
         viewModelScope.launch {
-            val crypto = repository.getCurrency()
+            val crypto = repository.getCurrency(fsym, tsym)
 
             crypto.suspendOnSuccess {
                 _cryptoHistory.emit(this.data.data)
