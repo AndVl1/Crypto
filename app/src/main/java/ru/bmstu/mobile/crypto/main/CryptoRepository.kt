@@ -13,7 +13,7 @@ class CryptoRepository @Inject constructor(
 ) : Repository {
 
     suspend fun getCurrency() = apiHelper.getHistory(
-        from = preferences.getString(CRYPTO_CURRENCY_KEY),
+        from = preferences.getNullableString(CRYPTO_CURRENCY_KEY) ?: "BTC",
         to = preferences.getNullableString(CURRENCY_KEY) ?: "USD",
         limit = "10",
         aggregate = 1

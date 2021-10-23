@@ -1,5 +1,6 @@
 package ru.bmstu.mobile.crypto.main
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.bmstu.mobile.crypto.compose.custom.ClickableCard
+import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
 import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.model.DataX
 import ru.bmstu.mobile.crypto.network.LoadingState
@@ -59,7 +61,10 @@ fun CryptoList(
                     .padding(8.dp),
                 onClick = { menuExpanded.value = true },
             ) {
-                Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.padding(CryptoTheme.shape.padding)
+                ) {
                     Text(
                         text = selectedCurrency.value.fullName,
                         modifier = Modifier,
@@ -81,14 +86,18 @@ fun CryptoList(
                 onDismissRequest = { menuExpanded.value = false },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f),
+                    .weight(1f)
+                    .background(CryptoTheme.colors.secondaryBackground),
             ) {
                 CryptoCurrency.values().forEach {
                     DropdownMenuItem(onClick = {
                         selectedCurrency.value = it
                         menuExpanded.value = false
                     }) {
-                        Text(text = it.fullName)
+                        Text(
+                            text = it.fullName,
+                            color = CryptoTheme.colors.primaryText
+                        )
                     }
                 }
             }
