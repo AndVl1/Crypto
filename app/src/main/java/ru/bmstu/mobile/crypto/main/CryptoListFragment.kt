@@ -1,7 +1,5 @@
 package ru.bmstu.mobile.crypto.main
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -14,18 +12,10 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.preference.ListPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceManager
-import by.kirich1409.viewbindingdelegate.internal.findRootView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.filter
-import org.joda.time.DateTime
 import ru.bmstu.mobile.crypto.R
-import java.sql.Date
-import java.time.Duration
-import java.time.LocalDate
-import java.util.*
+import ru.bmstu.mobile.crypto.model.CryptoCurrency
+import ru.bmstu.mobile.crypto.network.LoadingState
 
 @AndroidEntryPoint
 class CryptoListFragment : Fragment() {
@@ -42,22 +32,13 @@ class CryptoListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val currency = preferences.getString("currency", "").toString()
-        val days = preferences.getString("days", "")?.toInt()
-        viewModel.init("BTC", currency)
+        viewModel.init()
         return ComposeView(requireContext()).apply {
             setContent {
                 CryptoList(
-                    values = viewModel.cryptoHistory.filter { elem ->
-                        requireNotNull(elem)
-                        if (days != null) {
-                            val minDate = DateTime.now().minus(days.toLong())
-                            minDate.isBefore(elem.timeFrom.toLong())
-                        }
-                        true
-                    }.collectAsState(initial = null),
-                    onItemSelected = { time -> onItemSelected(time) }
+                    state = viewModel.cryptoHistory.collectAsState(initial = LoadingState.Loading),
+                    onItemSelected = { time -> onItemSelected(time) },
+                    onCurrencySelected = { currency -> onCryptoCurrencySelected(currency) }
                 )
             }
         }
@@ -65,6 +46,10 @@ class CryptoListFragment : Fragment() {
 
     private fun onItemSelected(time: Int) {
         // findNavController().navigate(...)
+    }
+
+    private fun onCryptoCurrencySelected(currency: CryptoCurrency) {
+        viewModel.update(currency)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -7,10 +7,12 @@ import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnException
 import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import ru.bmstu.mobile.crypto.model.Data
+import ru.bmstu.mobile.crypto.model.CryptoCurrency
+import ru.bmstu.mobile.crypto.network.LoadingState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,18 +20,39 @@ class ListViewModel @Inject constructor(
     private val repository: CryptoRepository
 ) : ViewModel() {
 
-    private val _cryptoHistory = MutableSharedFlow<Data?>()
+    private val _cryptoHistory = MutableSharedFlow<LoadingState?>()
     val cryptoHistory = _cryptoHistory.asSharedFlow()
 
-    fun init(fsym: String, tsym: String) {
+    fun init() {
         viewModelScope.launch {
-            val crypto = repository.getCurrency(fsym, tsym)
-
+            val crypto = repository.getCurrency()
+            _cryptoHistory.emit(LoadingState.Loading)
             crypto.suspendOnSuccess {
-                _cryptoHistory.emit(this.data.data)
+                delay(1000)
+                _cryptoHistory.emit(LoadingState.Loaded(this.data.data))
             }.suspendOnException {
+                _cryptoHistory.emit(LoadingState.Error)
                 Log.e("VM", "${this.message}")
             }.suspendOnError {
+                _cryptoHistory.emit(LoadingState.Error)
+                Log.e("VM", "${this.statusCode}")
+            }
+        }
+    }
+
+    fun update(currency: CryptoCurrency) {
+        viewModelScope.launch {
+            _cryptoHistory.emit(LoadingState.Loading)
+            repository.updateCurrency(currency)
+            delay(1000)
+            val crypto = repository.getCurrency()
+            crypto.suspendOnSuccess {
+                _cryptoHistory.emit(LoadingState.Loaded(this.data.data))
+            }.suspendOnException {
+                _cryptoHistory.emit(LoadingState.Error)
+                Log.e("VM", "${this.message}")
+            }.suspendOnError {
+                _cryptoHistory.emit(LoadingState.Error)
                 Log.e("VM", "${this.statusCode}")
             }
         }
