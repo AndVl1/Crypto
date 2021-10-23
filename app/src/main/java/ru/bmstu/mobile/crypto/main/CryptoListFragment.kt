@@ -56,7 +56,7 @@ class CryptoListFragment : Fragment() {
     }
 
     private fun onItemSelected(time: Int) {
-        // findNavController().navigate(...)
+        findNavController().navigate(R.id.cryptoElementFragment)
     }
 
     private fun onCryptoCurrencySelected(currency: CryptoCurrency) {
