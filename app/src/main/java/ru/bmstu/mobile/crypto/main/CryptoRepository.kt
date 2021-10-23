@@ -15,15 +15,15 @@ class CryptoRepository @Inject constructor(
     suspend fun getCurrency() = apiHelper.getHistory(
         from = getCryptoCurrencyType(),
         to = getRealCurrencyType(),
-        limit = "10",
-        aggregate = 1
+        limit = "20",
+        aggregate = 30
     )
 
     fun updateCurrency(currency: CryptoCurrency) {
         preferences.putString(CurrencyType.CRYPTO, currency.name)
     }
 
-    fun getCryptoCurrencyType() = preferences.getString(CurrencyType.CRYPTO)
+    fun getCryptoCurrencyType() = preferences.getNullableString(CurrencyType.CRYPTO) ?: "BTC"
 
     fun getRealCurrencyType() = preferences.getNullableString(CurrencyType.REAL) ?: "USD"
 }

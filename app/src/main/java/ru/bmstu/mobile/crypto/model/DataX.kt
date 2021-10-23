@@ -1,8 +1,8 @@
 package ru.bmstu.mobile.crypto.model
 
-
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.io.Serializable
 
 @JsonClass(generateAdapter = true)
 data class DataX(
@@ -19,9 +19,9 @@ data class DataX(
     @Json(name = "open")
     val `open`: Double,
     @Json(name = "time")
-    val time: Int,
+    val time: Long,
     @Json(name = "volumefrom")
     val volumefrom: Double,
     @Json(name = "volumeto")
     val volumeto: Double
-)
+) : Serializable

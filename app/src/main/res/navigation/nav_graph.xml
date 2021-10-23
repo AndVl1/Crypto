@@ -22,7 +22,10 @@
         android:label="SettingsFragment" />
     <fragment
         android:id="@+id/cryptoElementFragment"
-        android:name="ru.bmstu.mobile.crypto.main.CryptoElementFragment"
+        android:name="ru.bmstu.mobile.crypto.element.CryptoElementFragment"
         tools:layout="CryptoElementFragment">
+        <argument
+            android:name="data"
+            app:argType="ru.bmstu.mobile.crypto.model.DataX" />
     </fragment>
 </navigation>

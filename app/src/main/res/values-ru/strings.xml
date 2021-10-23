@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crypto</string>
+    <string name="high_price">Наивысшая цена</string>
+    <string name="low_price">Самая низкая цена</string>
+    <string name="common_header">Основные</string>
+    <string name="settings">Настройки</string>
+    <string name="currency_title">Валюта</string>
+    <string name="days_title">Дни</string>
+    <string name="open_price">Цена при открытии</string>
+    <string name="close_price">Цена при закрытии</string>
+</resources>

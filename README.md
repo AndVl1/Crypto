@@ -1,6 +1,7 @@
 # Crypto App
 
 Andrey [@AndVl1](http://github.com/AndVl1) Vladislavov
+
 Vladislav [@vlad333rrty](https://github.com/vlad333rrty) Muryzhnikov
 
 -----
