@@ -43,10 +43,10 @@ fun ListItem(
                 Column(verticalArrangement = Arrangement.Top) {
                     Text(text = "${stringResource(R.string.high_price)}: ${data.high}")
                     Text(text = "${stringResource(R.string.low_price)}: ${data.low}")
-                    Text(text = "Open price: ${data.open}")
-                    Text(text = "Close price: ${data.close}")
+                    Text(text = "${stringResource(R.string.open_price)}: ${data.open}")
+                    Text(text = "${stringResource(R.string.close_price)}: ${data.close}")
                 }
-                Text(text = "Closed at: ${data.time.toDate()}")
+                Text(text = "${stringResource(id = R.string.closed_at)}: ${data.time.toDate()}")
             }
         }
     }
