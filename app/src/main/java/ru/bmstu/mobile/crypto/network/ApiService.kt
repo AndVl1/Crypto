@@ -14,6 +14,8 @@ interface ApiService {
         @Query("tsym")
         category: String = "USD",
         @Query("limit")
-        size: String = "10"
+        size: String = "10",
+        @Query("aggregate")
+        aggregate: Int = 1,
     ): ApiResponse<CryptoResponse>
 }

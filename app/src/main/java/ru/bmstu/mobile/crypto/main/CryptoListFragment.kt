@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.bmstu.mobile.crypto.R
+import ru.bmstu.mobile.crypto.network.LoadingState
 
 @AndroidEntryPoint
 class CryptoListFragment: Fragment() {
@@ -34,7 +35,7 @@ class CryptoListFragment: Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 CryptoList(
-                    values = viewModel.cryptoHistory.collectAsState(initial = null),
+                    state = viewModel.cryptoHistory.collectAsState(initial = LoadingState.Loading),
                     onItemSelected = { time -> onItemSelected(time) }
                 )
             }
