@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.bmstu.mobile.crypto.R
+import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.network.LoadingState
 
 @AndroidEntryPoint
@@ -36,7 +37,8 @@ class CryptoListFragment: Fragment() {
             setContent {
                 CryptoList(
                     state = viewModel.cryptoHistory.collectAsState(initial = LoadingState.Loading),
-                    onItemSelected = { time -> onItemSelected(time) }
+                    onItemSelected = { time -> onItemSelected(time) },
+                    onCurrencySelected = { currency -> onCryptoCurrencySelected(currency) }
                 )
             }
         }
@@ -44,6 +46,10 @@ class CryptoListFragment: Fragment() {
 
     private fun onItemSelected(time: Int) {
         // findNavController().navigate(...)
+    }
+
+    private fun onCryptoCurrencySelected(currency: CryptoCurrency) {
+        viewModel.update(currency)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

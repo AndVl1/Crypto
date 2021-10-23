@@ -11,7 +11,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import ru.bmstu.mobile.crypto.model.Data
+import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.network.LoadingState
 import javax.inject.Inject
 
@@ -29,6 +29,24 @@ class ListViewModel @Inject constructor(
             _cryptoHistory.emit(LoadingState.Loading)
             crypto.suspendOnSuccess {
                 delay(1000)
+                _cryptoHistory.emit(LoadingState.Loaded(this.data.data))
+            }.suspendOnException {
+                _cryptoHistory.emit(LoadingState.Error)
+                Log.e("VM", "${this.message}")
+            }.suspendOnError {
+                _cryptoHistory.emit(LoadingState.Error)
+                Log.e("VM", "${this.statusCode}")
+            }
+        }
+    }
+
+    fun update(currency: CryptoCurrency) {
+        viewModelScope.launch {
+            _cryptoHistory.emit(LoadingState.Loading)
+            repository.updateCurrency(currency)
+            delay(1000)
+            val crypto = repository.getCurrency()
+            crypto.suspendOnSuccess {
                 _cryptoHistory.emit(LoadingState.Loaded(this.data.data))
             }.suspendOnException {
                 _cryptoHistory.emit(LoadingState.Error)
