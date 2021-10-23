@@ -7,13 +7,17 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.bmstu.mobile.crypto.R
+import ru.bmstu.mobile.crypto.compose.theme.MainTheme
 import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.network.LoadingState
 
@@ -31,15 +35,22 @@ class CryptoListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewModel.init()
         return ComposeView(requireContext()).apply {
             setContent {
-                CryptoList(
-                    state = viewModel.cryptoHistory.collectAsState(initial = LoadingState.Loading),
-                    onItemSelected = { time -> onItemSelected(time) },
-                    onCurrencySelected = { currency -> onCryptoCurrencySelected(currency) }
-                )
+                val isDarkModeValue = isSystemInDarkTheme()
+                val isDarkTheme = remember { mutableStateOf(isDarkModeValue) }
+
+                MainTheme(
+                    darkTheme = isDarkTheme.value
+                ) {
+                    CryptoList(
+                        state = viewModel.cryptoHistory.collectAsState(initial = LoadingState.Loading),
+                        onItemSelected = { time -> onItemSelected(time) },
+                        onCurrencySelected = { currency -> onCryptoCurrencySelected(currency) }
+                    )
+                }
             }
         }
     }

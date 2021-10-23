@@ -6,9 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Shapes
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,10 +15,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.bmstu.mobile.crypto.R
+import ru.bmstu.mobile.crypto.compose.custom.ClickableCard
+import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
 import ru.bmstu.mobile.crypto.extensions.toDate
 import ru.bmstu.mobile.crypto.model.DataX
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Composable
 @Preview
@@ -28,16 +27,17 @@ fun Item(
     data: DataX? = null,
     onClick: (Int) -> Unit = {}
 ) {
-    Card (
-        elevation = 4.dp,
-        shape = RoundedCornerShape(4.dp),
-        modifier = modifier,
-    ) {
-        data?.let {
+    data?.let {
+        ClickableCard(
+            elevation = 4.dp,
+            modifier = modifier,
+            onClick = { onClick.invoke(it.time) }
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusable(true)
+                    .padding(CryptoTheme.shape.padding)
                     .clickable { onClick.invoke(it.time) },
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {

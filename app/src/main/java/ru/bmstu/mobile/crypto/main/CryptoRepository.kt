@@ -23,7 +23,7 @@ class CryptoRepository @Inject constructor(
         preferences.putString(CurrencyType.CRYPTO, currency.name)
     }
 
-    fun getCryptoCurrencyType() = preferences.getString(CurrencyType.CRYPTO)
+    fun getCryptoCurrencyType() = preferences.getNullableString(CurrencyType.CRYPTO) ?: "BTC"
 
     fun getRealCurrencyType() = preferences.getNullableString(CurrencyType.REAL) ?: "USD"
 }
