@@ -18,7 +18,7 @@ import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.network.LoadingState
 
 @AndroidEntryPoint
-class CryptoListFragment: Fragment() {
+class CryptoListFragment : Fragment() {
 
     private val viewModel: ListViewModel by viewModels()
 

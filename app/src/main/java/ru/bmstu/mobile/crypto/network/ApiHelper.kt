@@ -1,7 +1,6 @@
 package ru.bmstu.mobile.crypto.network
 
 import com.skydoves.sandwich.ApiResponse
-import retrofit2.http.Query
 import ru.bmstu.mobile.crypto.model.CryptoResponse
 
 interface ApiHelper {

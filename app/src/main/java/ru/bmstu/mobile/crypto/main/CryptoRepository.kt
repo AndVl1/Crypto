@@ -6,6 +6,7 @@ import ru.bmstu.mobile.crypto.network.ApiHelper
 import ru.bmstu.mobile.crypto.network.Repository
 import javax.inject.Inject
 
+
 class CryptoRepository @Inject constructor(
     private val apiHelper: ApiHelper,
     private val preferences: AppPreferences,
