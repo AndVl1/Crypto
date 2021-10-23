@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
@@ -27,7 +28,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import ru.bmstu.mobile.crypto.compose.custom.ClickableCard
 import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
@@ -40,7 +45,8 @@ fun CryptoList(
     defCryptoCurrency: CryptoCurrency,
     state: State<LoadingState?>,
     onItemSelected: (DataX) -> Unit = {},
-    onCurrencySelected: (CryptoCurrency) -> Unit = {}
+    onCurrencySelected: (CryptoCurrency) -> Unit = {},
+    onLinkClicked: () -> Unit = {},
 ) {
     val selectedCurrency = remember() {
         mutableStateOf(defCryptoCurrency)
@@ -50,7 +56,6 @@ fun CryptoList(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.fillMaxWidth()
@@ -103,7 +108,13 @@ fun CryptoList(
                 }
             }
         }
-
+        ClickableText(
+            text = AnnotatedString(
+                text = "https://min-api.cryptocompare.com/documentation",
+                spanStyle = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)
+            ),
+            onClick = { onLinkClicked.invoke() }
+        )
         when (state.value) {
             is LoadingState.Loading -> {
                 Box(
