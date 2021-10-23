@@ -12,9 +12,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
         findPreference<EditTextPreference>("days")?.setOnBindEditTextListener { editText ->
             editText.doAfterTextChanged { editable ->
-                editText.error = when(editable.toString().toIntOrNull()) {
-                    null -> "Wrong input"
-                    else -> null
+                val value = editable.toString().toIntOrNull()
+                if (value == null || value < 0) {
+                    editText.error = "Wrong input"
                 }
             }
         }
