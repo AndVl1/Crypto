@@ -37,12 +37,13 @@ import ru.bmstu.mobile.crypto.network.LoadingState
 
 @Composable
 fun CryptoList(
+    defCryptoCurrency: CryptoCurrency,
     state: State<LoadingState?>,
-    onItemSelected: (Int) -> Unit = {},
+    onItemSelected: (DataX) -> Unit = {},
     onCurrencySelected: (CryptoCurrency) -> Unit = {}
 ) {
     val selectedCurrency = remember() {
-        mutableStateOf(CryptoCurrency.BTC)
+        mutableStateOf(defCryptoCurrency)
     }
     val menuExpanded = remember {
         mutableStateOf(false)
@@ -128,18 +129,17 @@ fun CryptoList(
 @Composable
 fun ListContent(
     content: List<DataX>,
-    onItemSelected: (Int) -> Unit = {}
+    onItemSelected: (DataX) -> Unit = {}
 ) {
     LazyColumn {
         items(content) { cryptoItem ->
-            Item(
+            ListItem(
                 data = cryptoItem,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                onItemSelected.invoke(it)
-            }
+                    .padding(8.dp),
+                onClick = { onItemSelected.invoke(cryptoItem) }
+            )
         }
     }
 }

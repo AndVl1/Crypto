@@ -13,9 +13,19 @@
         <action
             android:id="@+id/action_cryptoListFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action android:id="@+id/action_cryptoListFragment_to_cryptoElementFragment"
+            app:destination="@+id/cryptoElementFragment"/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="ru.bmstu.mobile.crypto.settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/cryptoElementFragment"
+        android:name="ru.bmstu.mobile.crypto.element.CryptoElementFragment"
+        tools:layout="CryptoElementFragment">
+        <argument
+            android:name="data"
+            app:argType="ru.bmstu.mobile.crypto.model.DataX" />
+    </fragment>
 </navigation>

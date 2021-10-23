@@ -3,7 +3,7 @@
     <PreferenceCategory app:title="@string/common_header">
 
         <ListPreference
-            app:key="real"
+            app:key="@string/real_currency_key"
             app:title="@string/currency_title"
             app:entries="@array/currency_entries"
             app:entryValues="@array/currency_entries"/>

@@ -9,7 +9,9 @@ import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.network.LoadingState
@@ -22,10 +24,13 @@ class ListViewModel @Inject constructor(
 
     private val _cryptoHistory = MutableSharedFlow<LoadingState?>()
     val cryptoHistory = _cryptoHistory.asSharedFlow()
+    private val _currency = MutableStateFlow(CryptoCurrency.valueOf(repository.getCryptoCurrencyType()))
+    val currency = _currency.asStateFlow()
 
     fun init() {
         viewModelScope.launch {
             val crypto = repository.getCurrency()
+            _currency.emit(CryptoCurrency.valueOf(repository.getCryptoCurrencyType()))
             _cryptoHistory.emit(LoadingState.Loading)
             crypto.suspendOnSuccess {
                 delay(1000)

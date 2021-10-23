@@ -22,32 +22,31 @@ import ru.bmstu.mobile.crypto.model.DataX
 
 @Composable
 @Preview
-fun Item(
+fun ListItem(
     modifier: Modifier = Modifier,
     data: DataX? = null,
-    onClick: (Int) -> Unit = {}
+    onClick: () -> Unit = {}
 ) {
     data?.let {
         ClickableCard(
             elevation = 4.dp,
             modifier = modifier,
-            onClick = { onClick.invoke(it.time) }
+            onClick = { onClick.invoke() }
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusable(true)
-                    .padding(CryptoTheme.shape.padding)
-                    .clickable { onClick.invoke(it.time) },
+                    .padding(CryptoTheme.shape.padding),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(verticalArrangement = Arrangement.Top) {
                     Text(text = "${stringResource(R.string.high_price)}: ${data.high}")
                     Text(text = "${stringResource(R.string.low_price)}: ${data.low}")
-                    Text(text = "Open price: ${data.open}")
-                    Text(text = "Close price: ${data.close}")
+                    Text(text = "${stringResource(R.string.open_price)}: ${data.open}")
+                    Text(text = "${stringResource(R.string.close_price)}: ${data.close}")
                 }
-                Text(text = "Closed at: ${data.time.toLong().toDate()}")
+                Text(text = "${stringResource(id = R.string.closed_at)}: ${data.time.toDate()}")
             }
         }
     }
