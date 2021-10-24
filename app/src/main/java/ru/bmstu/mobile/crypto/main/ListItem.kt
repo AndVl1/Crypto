@@ -40,7 +40,7 @@ fun ListItem(
                     .padding(CryptoTheme.shape.padding),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Column(verticalArrangement = Arrangement.Top) {
+                Column(verticalArrangement = Arrangement.Top, modifier = Modifier.weight(1f)) {
                     Text(text = "${stringResource(R.string.high_price)}: ${data.high}")
                     Text(text = "${stringResource(R.string.low_price)}: ${data.low}")
                     Text(text = "${stringResource(R.string.open_price)}: ${data.open}")
