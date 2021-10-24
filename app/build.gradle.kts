@@ -1,8 +1,10 @@
 plugins {
-    id ("com.android.application")
-    id( "dagger.hilt.android.plugin")
-    kotlin( "android")
-    kotlin( "kapt")
+    id("com.android.application")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
+    kotlin("android")
+    kotlin("kapt")
+    kotlin("plugin.serialization") version "1.5.31"
 }
 
 //repositories {
@@ -70,10 +72,13 @@ dependencies {
     kapt (Dependencies.Dagger.daggerCompiler)
     implementation (Dependencies.Dagger.daggerHilt)
     kapt (Dependencies.Dagger.hiltCompiler)
+    implementation(Dependencies.Dagger.hiltNavigation)
 
     // json
     implementation( "com.squareup.moshi:moshi-kotlin:1.12.0")
     kapt( "com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
     // network
     implementation(Dependencies.Network.sandwich)
@@ -84,11 +89,13 @@ dependencies {
 
     // compose
     implementation(Dependencies.Compose.activity)
-    implementation (Dependencies.Compose.animations)
-    implementation( Dependencies.Compose.material)
-    implementation( Dependencies.Compose.tooling)
+    implementation(Dependencies.Compose.animations)
+    implementation(Dependencies.Compose.material)
+    implementation(Dependencies.Compose.tooling)
     implementation(Dependencies.Compose.viewModels)
     implementation(Dependencies.Compose.systemUiController)
+    implementation(Dependencies.Compose.animatedNavigation)
+    implementation(Dependencies.Compose.viewBinding)
 
     // time
     implementation( "joda-time:joda-time:2.10.12")

@@ -9,4 +9,5 @@
     <string name="days_title">Дни</string>
     <string name="open_price">Цена при открытии</string>
     <string name="close_price">Цена при закрытии</string>
+    <string name="closed_at">Время закрытия</string>
 </resources>

@@ -14,8 +14,11 @@ object Dependencies {
         const val tooling = "androidx.compose.ui:ui-tooling:$version"
         // Integration with ViewModels
         const val viewModels = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-rc01"
+        const val navigation = "androidx.navigation.navigation-compose:2.4.0-alpha04"
+        const val viewBinding = "androidx.compose.ui:ui-viewbinding:$version"
         // Accompanist
         const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
+        const val animatedNavigation = "com.google.accompanist:accompanist-navigation-animation:$accompanist"
     }
 
     object Network {
@@ -63,6 +66,7 @@ object Dependencies {
         const val daggerHilt = "com.google.dagger:hilt-android:$version"
         const val daggerCompiler = "com.google.dagger:dagger-compiler:$version"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:$version"
+        const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
     }
 
     object Plugins {

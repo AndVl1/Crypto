@@ -6,3 +6,9 @@ enum class CryptoCurrency(val fullName: String) {
     BNB("Binance Coin"),
     DOGE("Dogecoin")
 }
+
+enum class Currency(val fullName: String) {
+    EUR("Euro"),
+    RUB("Ruble"),
+    USD("US Dollar"),
+}
