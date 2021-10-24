@@ -69,7 +69,7 @@ fun CryptoList(
                         currentIndex = CryptoCurrency.values().indexOf(selectedCryptoCurrency.value)
                     ),
                     onItemSelected = { index ->
-                        viewModel.update(CryptoCurrency.values()[index])
+                        viewModel.handleIntent(LoadingEvent.ReloadScreen(CryptoCurrency.values()[index]))
                     }
                 )
                 ClickableCard(
@@ -135,7 +135,7 @@ fun CryptoList(
     }
 
     LaunchedEffect(state) {
-        viewModel.init()
+        viewModel.handleIntent(LoadingEvent.EnterScreen)
     }
 }
 

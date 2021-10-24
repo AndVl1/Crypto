@@ -1,4 +1,4 @@
-package ru.bmstu.mobile.crypto.main
+package ru.bmstu.mobile.crypto.chart
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -7,19 +7,19 @@ import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnException
 import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.bmstu.mobile.crypto.base.IntentHandler
+import ru.bmstu.mobile.crypto.main.CryptoRepository
+import ru.bmstu.mobile.crypto.main.LoadingEvent
 import ru.bmstu.mobile.crypto.model.CryptoCurrency
-import ru.bmstu.mobile.crypto.model.Currency
 import ru.bmstu.mobile.crypto.network.ListScreenState
 import javax.inject.Inject
 
 @HiltViewModel
-class ListViewModel @Inject constructor(
+class ChartViewModel @Inject constructor(
     private val repository: CryptoRepository
 ) : ViewModel(), IntentHandler<LoadingEvent> {
 
@@ -27,8 +27,6 @@ class ListViewModel @Inject constructor(
     val cryptoHistory = _cryptoHistory.asSharedFlow()
     private val _cryptoCurrency = MutableStateFlow(CryptoCurrency.valueOf(repository.getCryptoCurrencyType()))
     val cryptoCurrency = _cryptoCurrency.asStateFlow()
-    private val _currency = MutableStateFlow(Currency.valueOf(repository.getRealCurrencyType()))
-    val currency = _currency.asStateFlow()
 
     override fun handleIntent(event: LoadingEvent) {
         when (val current = _cryptoHistory.value) {
@@ -40,7 +38,7 @@ class ListViewModel @Inject constructor(
 
     private fun reduce(event: LoadingEvent, currentState: ListScreenState.Loading) {
         when (event) {
-            is LoadingEvent.ReloadScreen -> getHistory(true, event.currency)
+            is LoadingEvent.ReloadScreen -> getHistory(true)
             is LoadingEvent.EnterScreen -> getHistory(true)
             else -> {}
         }
@@ -48,7 +46,7 @@ class ListViewModel @Inject constructor(
 
     private fun reduce(event: LoadingEvent, currentState: ListScreenState.Loaded) {
         when (event) {
-            is LoadingEvent.ReloadScreen -> getHistory(true, newCryptoCurrency = event.currency)
+            is LoadingEvent.ReloadScreen -> getHistory(false)
             else -> {}
         }
     }

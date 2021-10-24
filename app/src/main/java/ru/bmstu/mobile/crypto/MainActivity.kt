@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -28,6 +29,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import ru.bmstu.mobile.crypto.chart.ChartScreen
+import ru.bmstu.mobile.crypto.chart.ChartViewModel
 import ru.bmstu.mobile.crypto.compose.navigation.MainBottomScreen
 import ru.bmstu.mobile.crypto.compose.navigation.cryptoFlow
 import ru.bmstu.mobile.crypto.compose.theme.CryptoCorners
@@ -36,6 +39,7 @@ import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
 import ru.bmstu.mobile.crypto.compose.theme.MainTheme
 import ru.bmstu.mobile.crypto.compose.theme.baseDarkPalette
 import ru.bmstu.mobile.crypto.compose.theme.baseLightPalette
+import ru.bmstu.mobile.crypto.main.ListViewModel
 import ru.bmstu.mobile.crypto.model.Currency
 import ru.bmstu.mobile.crypto.settings.Settings
 import ru.bmstu.mobile.crypto.settings.SettingsViewModel
@@ -60,7 +64,11 @@ class MainActivity : AppCompatActivity() {
                 val navController = rememberNavController()
                 val systemUiController = rememberSystemUiController()
 
-                val navItems = listOf(MainBottomScreen.History, MainBottomScreen.Settings)
+                val navItems = listOf(
+                    MainBottomScreen.History,
+                    MainBottomScreen.Chart,
+                    MainBottomScreen.Settings,
+                )
 
                 SideEffect {
                     systemUiController.setSystemBarsColor(
@@ -88,6 +96,11 @@ class MainActivity : AppCompatActivity() {
                                         onNewStyle = { style.value = it },
                                     )
                                 }
+
+                                composable(MainBottomScreen.Chart.route) {
+                                    val viewModel = hiltViewModel<ChartViewModel>()
+                                    ChartScreen(viewModel = viewModel)
+                                }
                             }
                         }
                         Box(modifier = Modifier
@@ -110,18 +123,29 @@ class MainActivity : AppCompatActivity() {
                                                     saveState = true
                                                 }
                                                 launchSingleTop = true
-                                                restoreState = false
+                                                restoreState = true
                                             }
                                         },
                                         icon = {
-                                            Icon(
-                                                imageVector = screen.icon,
-                                                contentDescription = null,
-                                                tint = if (isSelected)
-                                                    CryptoTheme.colors.tintColor
-                                                else
-                                                    CryptoTheme.colors.controlColor
-                                            )
+                                            if (screen.icon != null) {
+                                                Icon(
+                                                    imageVector = screen.icon,
+                                                    contentDescription = null,
+                                                    tint = if (isSelected)
+                                                        CryptoTheme.colors.tintColor
+                                                    else
+                                                        CryptoTheme.colors.controlColor
+                                                )
+                                            } else if (screen.res != null) {
+                                                Icon(
+                                                    painter = painterResource(id = screen.res),
+                                                    contentDescription = null,
+                                                    tint = if (isSelected)
+                                                        CryptoTheme.colors.tintColor
+                                                    else
+                                                        CryptoTheme.colors.controlColor
+                                                )
+                                            }
                                         },
                                         modifier = Modifier.background(CryptoTheme.colors.primaryBackground),
                                     )

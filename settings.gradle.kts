@@ -32,3 +32,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "CryptoCompose"
 include(":app")
+include(":app:chart")

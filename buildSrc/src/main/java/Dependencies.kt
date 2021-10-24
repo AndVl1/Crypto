@@ -19,6 +19,8 @@ object Dependencies {
         // Accompanist
         const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
         const val animatedNavigation = "com.google.accompanist:accompanist-navigation-animation:$accompanist"
+        // chart
+        const val charts = "com.github.tehras:charts:"
     }
 
     object Network {
