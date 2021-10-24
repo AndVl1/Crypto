@@ -1,5 +1,6 @@
 package ru.bmstu.mobile.crypto.settings
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -40,12 +42,15 @@ import ru.bmstu.mobile.crypto.model.Currency
 @Composable
 fun Settings(
     viewModel: SettingsViewModel,
-    onDarkThereToggled: (Boolean) -> Unit = {},
+    onDarkThemeToggled: (Boolean) -> Unit,
     darkTheme: Boolean = false,
-    onNewStyle: (CryptoStyle) -> Unit = {},
+    onNewStyle: (CryptoStyle) -> Unit,
 ) {
     val selectedCurrency = remember {
         mutableStateOf(viewModel.getCurrency())
+    }
+    val selectedDays = remember {
+        mutableStateOf(viewModel.getDays())
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -81,6 +86,17 @@ fun Settings(
                     viewModel.updateCurrency(selectedCurrency.value)
                 }
             )
+            MenuItem(
+                model = MenuItemModel(
+                    title = stringResource(id = R.string.days_title),
+                    values = (1..30).toList().map { it.toString() },
+                    currentIndex = selectedDays.value - 1
+                ),
+                onItemSelected = { index ->
+                    selectedDays.value = index + 1
+                    viewModel.updateDays(selectedDays.value)
+                }
+            )
             Text(
                 text = stringResource(id = R.string.ui),
                 style = CryptoTheme.typography.heading,
@@ -102,7 +118,9 @@ fun Settings(
                     Text(text = "Dark theme", style = CryptoTheme.typography.body)
                     Checkbox(
                         checked = darkTheme,
-                        onCheckedChange = { onDarkThereToggled.invoke(it) },
+                        onCheckedChange = {
+                            onDarkThemeToggled.invoke(it)
+                        },
                         colors = CheckboxDefaults.colors(
                             checkedColor = CryptoTheme.colors.tintColor,
                             uncheckedColor = CryptoTheme.colors.secondaryText

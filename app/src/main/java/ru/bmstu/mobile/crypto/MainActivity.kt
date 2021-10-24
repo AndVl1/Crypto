@@ -2,7 +2,9 @@ package ru.bmstu.mobile.crypto
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.runtime.SideEffect
@@ -34,15 +37,16 @@ import ru.bmstu.mobile.crypto.chart.ChartViewModel
 import ru.bmstu.mobile.crypto.compose.navigation.MainBottomScreen
 import ru.bmstu.mobile.crypto.compose.navigation.cryptoFlow
 import ru.bmstu.mobile.crypto.compose.theme.CryptoCorners
+import ru.bmstu.mobile.crypto.compose.theme.CryptoSize
 import ru.bmstu.mobile.crypto.compose.theme.CryptoStyle
 import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
 import ru.bmstu.mobile.crypto.compose.theme.MainTheme
 import ru.bmstu.mobile.crypto.compose.theme.baseDarkPalette
 import ru.bmstu.mobile.crypto.compose.theme.baseLightPalette
-import ru.bmstu.mobile.crypto.main.ListViewModel
 import ru.bmstu.mobile.crypto.model.Currency
 import ru.bmstu.mobile.crypto.settings.Settings
 import ru.bmstu.mobile.crypto.settings.SettingsViewModel
+import kotlin.streams.asStream
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -54,21 +58,18 @@ class MainActivity : AppCompatActivity() {
             val isDarkTheme = remember { mutableStateOf(isDarkModeValue) }
             val corners = remember { mutableStateOf(CryptoCorners.Rounded) }
             val style = remember { mutableStateOf(CryptoStyle.Purple) }
-            val currency = remember { mutableStateOf(Currency.USD) }
+            val textSize = remember { mutableStateOf(CryptoSize.Medium) }
+            val paddingSize = remember { mutableStateOf(CryptoSize.Medium) }
 
             MainTheme(
                 darkTheme = isDarkTheme.value,
                 corners = corners.value,
+                textSize = textSize.value,
+                paddingSize = paddingSize.value,
                 style = style.value
             ) {
                 val navController = rememberNavController()
                 val systemUiController = rememberSystemUiController()
-
-                val navItems = listOf(
-                    MainBottomScreen.History,
-                    MainBottomScreen.Chart,
-                    MainBottomScreen.Settings,
-                )
 
                 SideEffect {
                     systemUiController.setSystemBarsColor(
@@ -78,7 +79,14 @@ class MainActivity : AppCompatActivity() {
                         darkIcons = !isDarkTheme.value
                     )
                 }
-                Surface() {
+
+                val navItems = listOf(
+                    MainBottomScreen.History,
+                    MainBottomScreen.Chart,
+                    MainBottomScreen.Settings,
+                )
+
+                Surface {
                     Column {
                         Box(modifier = Modifier.weight(1f)) {
                             NavHost(
@@ -91,7 +99,9 @@ class MainActivity : AppCompatActivity() {
                                     val settingsViewModel = hiltViewModel<SettingsViewModel>()
                                     Settings(
                                         viewModel = settingsViewModel,
-                                        onDarkThereToggled = { isDarkTheme.value = it },
+                                        onDarkThemeToggled = {
+                                            isDarkTheme.value = it
+                                        },
                                         darkTheme = isDarkTheme.value,
                                         onNewStyle = { style.value = it },
                                     )
@@ -110,6 +120,7 @@ class MainActivity : AppCompatActivity() {
                             BottomNavigation {
                                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                                 val currentDestination = navBackStackEntry?.destination
+                                Log.d("NAV", "${navBackStackEntry?.destination?.hierarchy?.joinToString("|")}")
 
                                 navItems.forEach { screen ->
                                     val isSelected = currentDestination?.hierarchy

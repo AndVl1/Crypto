@@ -14,6 +14,14 @@ class SettingsRepository @Inject constructor(
         preferences.putString(CurrencyType.REAL, currency.name)
     }
 
+    fun putDays(days: Int) {
+        preferences.putInt("DAYS", days)
+    }
+
+    fun getDays(): Int {
+        return preferences.getInt("DAYS", 30)
+    }
+
     fun getCurrency(): Currency {
         return preferences.getNullableString(CurrencyType.REAL)?.let {
             Currency.valueOf(it)

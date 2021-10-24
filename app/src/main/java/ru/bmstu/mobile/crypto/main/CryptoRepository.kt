@@ -16,7 +16,7 @@ class CryptoRepository @Inject constructor(
         from = getCryptoCurrencyType(),
         to = getRealCurrencyType(),
         limit = "20",
-        aggregate = 30
+        aggregate = preferences.getInt("DAYS", 30)
     )
 
     fun updateCurrency(currency: CryptoCurrency) {

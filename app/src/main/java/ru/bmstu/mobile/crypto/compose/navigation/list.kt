@@ -1,6 +1,5 @@
 package ru.bmstu.mobile.crypto.compose.navigation
 
-import android.os.Bundle
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

@@ -95,6 +95,7 @@ dependencies {
     implementation(Dependencies.Compose.viewModels)
     implementation(Dependencies.Compose.systemUiController)
     implementation(Dependencies.Compose.animatedNavigation)
+    implementation(Dependencies.Compose.swipeRefresh)
     implementation(Dependencies.Compose.viewBinding)
 
     // time

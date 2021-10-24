@@ -33,6 +33,9 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ru.bmstu.mobile.crypto.R
 import ru.bmstu.mobile.crypto.compose.custom.ClickableCard
 import ru.bmstu.mobile.crypto.compose.custom.MenuItem
@@ -106,29 +109,34 @@ fun CryptoList(
                 ),
                 onClick = { context.openLink("https://min-api.cryptocompare.com/documentation") }
             )
-            when (state.value) {
-                is ListScreenState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(color = CryptoTheme.colors.tintColor)
-                    }
-                }
-                is ListScreenState.Error -> {
-                    ErrorScreen()
-                }
-                is ListScreenState.Loaded -> {
-                    ListContent(
-                        content = (state.value as ListScreenState.Loaded).data.data,
-                        onItemSelected = { data ->
-                            onItemSelected?.invoke(
-                                data,
-                                selectedCryptoCurrency.value.name,
-                                viewModel.currency.value.name
-                            )
+            SwipeRefresh(
+                state = rememberSwipeRefreshState(isRefreshing = state.value == ListScreenState.Loading),
+                onRefresh = { viewModel.handleIntent(LoadingEvent.ReloadScreen(selectedCryptoCurrency.value)) }
+            ) {
+                when (state.value) {
+                    is ListScreenState.Loading -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator(color = CryptoTheme.colors.tintColor)
                         }
-                    )
+                    }
+                    is ListScreenState.Error -> {
+                        ErrorScreen()
+                    }
+                    is ListScreenState.Loaded -> {
+                        ListContent(
+                            content = (state.value as ListScreenState.Loaded).data.data,
+                            onItemSelected = { data ->
+                                onItemSelected?.invoke(
+                                    data,
+                                    selectedCryptoCurrency.value.name,
+                                    viewModel.currency.value.name
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

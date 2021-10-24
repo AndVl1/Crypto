@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.bmstu.mobile.crypto.model.Currency
 import javax.inject.Inject
 
+// TODO replace with concurrent
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val repository: SettingsRepository
@@ -16,5 +17,13 @@ class SettingsViewModel @Inject constructor(
 
     fun updateCurrency(currency: Currency) {
         repository.putCurrency(currency)
+    }
+
+    fun updateDays(days: Int) {
+        repository.putDays(days)
+    }
+
+    fun getDays(): Int {
+        return repository.getDays()
     }
 }
