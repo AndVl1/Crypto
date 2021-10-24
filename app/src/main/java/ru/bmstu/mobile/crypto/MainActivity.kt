@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                                                     saveState = true
                                                 }
                                                 launchSingleTop = true
-                                                restoreState = true
+                                                restoreState = false
                                             }
                                         },
                                         icon = {

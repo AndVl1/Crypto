@@ -1,6 +1,5 @@
 package ru.bmstu.mobile.crypto.main
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,15 +13,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,14 +41,14 @@ import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
 import ru.bmstu.mobile.crypto.extensions.openLink
 import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.model.DataX
-import ru.bmstu.mobile.crypto.network.LoadingState
+import ru.bmstu.mobile.crypto.network.ListScreenState
 
 @Composable
 fun CryptoList(
     viewModel: ListViewModel,
     onItemSelected: ((DataX, String, String) -> Unit)? = null,
 ) {
-    val state = viewModel.cryptoHistory.collectAsState(initial = null)
+    val state = viewModel.cryptoHistory.collectAsState(ListScreenState.Loading)
     val context = LocalContext.current
 
     val selectedCryptoCurrency = viewModel.cryptoCurrency.collectAsState()
@@ -110,7 +107,7 @@ fun CryptoList(
                 onClick = { context.openLink("https://min-api.cryptocompare.com/documentation") }
             )
             when (state.value) {
-                is LoadingState.Loading -> {
+                is ListScreenState.Loading -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
@@ -118,12 +115,12 @@ fun CryptoList(
                         CircularProgressIndicator(color = CryptoTheme.colors.tintColor)
                     }
                 }
-                is LoadingState.Error -> {
+                is ListScreenState.Error -> {
                     ErrorScreen()
                 }
-                is LoadingState.Loaded -> {
+                is ListScreenState.Loaded -> {
                     ListContent(
-                        content = (state.value as LoadingState.Loaded).data.data,
+                        content = (state.value as ListScreenState.Loaded).data.data,
                         onItemSelected = { data ->
                             onItemSelected?.invoke(
                                 data,
@@ -137,7 +134,7 @@ fun CryptoList(
         }
     }
 
-    SideEffect {
+    LaunchedEffect(state) {
         viewModel.init()
     }
 }

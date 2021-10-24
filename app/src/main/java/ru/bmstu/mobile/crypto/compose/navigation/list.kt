@@ -13,7 +13,6 @@ import kotlinx.serialization.json.Json
 import ru.bmstu.mobile.crypto.element.CryptoElement
 import ru.bmstu.mobile.crypto.extensions.DataParamType
 import ru.bmstu.mobile.crypto.main.CryptoList
-import ru.bmstu.mobile.crypto.main.ListContent
 import ru.bmstu.mobile.crypto.main.ListViewModel
 import ru.bmstu.mobile.crypto.model.DataX
 
