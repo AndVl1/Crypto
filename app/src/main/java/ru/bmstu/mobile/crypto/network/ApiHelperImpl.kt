@@ -1,8 +1,8 @@
 package ru.bmstu.mobile.crypto.network
 
 import com.skydoves.sandwich.ApiResponse
-import ru.bmstu.mobile.crypto.model.CryptoResponse
 import javax.inject.Inject
+import ru.bmstu.mobile.crypto.model.CryptoResponse
 
 class ApiHelperImpl @Inject constructor(
     private val apiService: ApiService

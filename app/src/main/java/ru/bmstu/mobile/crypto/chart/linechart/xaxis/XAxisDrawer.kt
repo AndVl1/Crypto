@@ -6,18 +6,18 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 
 // https://github.com/tehras/charts
 interface XAxisDrawer {
-  fun requiredHeight(drawScope: DrawScope): Float
+    fun requiredHeight(drawScope: DrawScope): Float
 
-  fun drawAxisLine(
-    drawScope: DrawScope,
-    canvas: Canvas,
-    drawableArea: Rect
-  )
+    fun drawAxisLine(
+        drawScope: DrawScope,
+        canvas: Canvas,
+        drawableArea: Rect
+    )
 
-  fun drawAxisLabels(
-    drawScope: DrawScope,
-    canvas: Canvas,
-    drawableArea: Rect,
-    labels: List<String>
-  )
+    fun drawAxisLabels(
+        drawScope: DrawScope,
+        canvas: Canvas,
+        drawableArea: Rect,
+        labels: List<String>
+    )
 }

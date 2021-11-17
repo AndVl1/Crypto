@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.bmstu.mobile.crypto.model.DataX
 import javax.inject.Singleton
+import ru.bmstu.mobile.crypto.model.DataX
 
 @Module
 @InstallIn(SingletonComponent::class)

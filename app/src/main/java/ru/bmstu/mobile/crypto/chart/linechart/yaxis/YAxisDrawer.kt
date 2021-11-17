@@ -6,17 +6,17 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 
 // https://github.com/tehras/charts
 interface YAxisDrawer {
-  fun drawAxisLine(
-    drawScope: DrawScope,
-    canvas: Canvas,
-    drawableArea: Rect
-  )
+    fun drawAxisLine(
+        drawScope: DrawScope,
+        canvas: Canvas,
+        drawableArea: Rect
+    )
 
-  fun drawAxisLabels(
-    drawScope: DrawScope,
-    canvas: Canvas,
-    drawableArea: Rect,
-    minValue: Float,
-    maxValue: Float
-  )
+    fun drawAxisLabels(
+        drawScope: DrawScope,
+        canvas: Canvas,
+        drawableArea: Rect,
+        minValue: Float,
+        maxValue: Float
+    )
 }

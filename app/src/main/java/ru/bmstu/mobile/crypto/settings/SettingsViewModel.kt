@@ -2,8 +2,8 @@ package ru.bmstu.mobile.crypto.settings
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ru.bmstu.mobile.crypto.model.Currency
 import javax.inject.Inject
+import ru.bmstu.mobile.crypto.model.Currency
 
 // TODO replace with concurrent
 @HiltViewModel

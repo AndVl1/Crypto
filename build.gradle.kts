@@ -1,12 +1,43 @@
-buildscript {
+
+plugins {
+    id("com.android.application") apply false
+    kotlin("android") apply false
+    kotlin("kapt") apply false
+    id("org.jetbrains.kotlin.android.extensions") apply false
+    id("io.gitlab.arturbosch.detekt") version Dependencies.Detekt.Version
+    id("org.jlleitschuh.gradle.ktlint") version Dependencies.Ktlint.GradlePluginVersion
+}
+
+allprojects {
     repositories {
-        google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
+        google()
     }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.39.1")
+}
+
+subprojects {
+    apply {
+        plugin("io.gitlab.arturbosch.detekt")
+        plugin("org.jlleitschuh.gradle.ktlint")
+    }
+
+    detekt {
+        config = rootProject.files("config/detekt/detekt.yml")
+        autoCorrect = true
+    }
+
+    ktlint {
+        ktlint {
+            version.set(Dependencies.Ktlint.Version)
+            android.set(true)
+            verbose.set(true)
+            outputToConsole.set(true)
+            ignoreFailures.set(false)
+            enableExperimentalRules.set(true)
+            filter {
+                exclude("**/generated/**")
+                include("**/kotlin/**")
+            }
+        }
     }
 }

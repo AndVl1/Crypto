@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -16,7 +17,6 @@ import ru.bmstu.mobile.crypto.network.ApiHelper
 import ru.bmstu.mobile.crypto.network.ApiHelperImpl
 import ru.bmstu.mobile.crypto.network.ApiService
 import ru.bmstu.mobile.crypto.network.RequestInterceptor
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,7 +33,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesImageLoader (
+    fun providesImageLoader(
         @ApplicationContext context: Context,
         okHttpClient: OkHttpClient,
     ): ImageLoader {

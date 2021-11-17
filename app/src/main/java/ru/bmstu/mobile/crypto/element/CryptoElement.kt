@@ -13,7 +13,6 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
@@ -21,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import ru.bmstu.mobile.crypto.R
 import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
 import ru.bmstu.mobile.crypto.extensions.toDate
-import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.model.DataX
 
 @Composable
@@ -73,7 +71,7 @@ fun CryptoElement(
                         color = CryptoTheme.colors.primaryText
                     )
                     Text(
-                        text = "${stringResource(R.string.open_price)}: ${data.open}",
+                        text = "${stringResource(R.string.open_price)}: ${data.openingTime}",
                         color = CryptoTheme.colors.primaryText
                     )
                     Text(

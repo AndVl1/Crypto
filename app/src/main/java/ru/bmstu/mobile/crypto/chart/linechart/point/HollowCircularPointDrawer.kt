@@ -12,30 +12,30 @@ import androidx.compose.ui.unit.dp
 
 // https://github.com/tehras/charts
 data class HollowCircularPointDrawer(
-  val diameter: Dp = 8.dp,
-  val lineThickness: Dp = 2.dp,
-  val color: Color = Color.Blue
+    val diameter: Dp = 8.dp,
+    val lineThickness: Dp = 2.dp,
+    val color: Color = Color.Blue
 ) : PointDrawer {
 
-  private val paint = Paint().apply {
-    color = this@HollowCircularPointDrawer.color
-    style = PaintingStyle.Stroke
-    isAntiAlias = true
-  }
-
-  override fun drawPoint(
-    drawScope: DrawScope,
-    canvas: Canvas,
-    center: Offset
-  ) {
-    with(drawScope as Density) {
-      canvas.drawCircle(
-        center = center,
-        radius = diameter.toPx() / 2f,
-        paint = paint.apply {
-          strokeWidth = lineThickness.toPx()
-        }
-      )
+    private val paint = Paint().apply {
+        color = this@HollowCircularPointDrawer.color
+        style = PaintingStyle.Stroke
+        isAntiAlias = true
     }
-  }
+
+    override fun drawPoint(
+        drawScope: DrawScope,
+        canvas: Canvas,
+        center: Offset
+    ) {
+        with(drawScope as Density) {
+            canvas.drawCircle(
+                center = center,
+                radius = diameter.toPx() / 2f,
+                paint = paint.apply {
+                    strokeWidth = lineThickness.toPx()
+                }
+            )
+        }
+    }
 }

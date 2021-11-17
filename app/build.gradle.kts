@@ -7,11 +7,6 @@ plugins {
     kotlin("plugin.serialization") version "1.5.31"
 }
 
-//repositories {
-//    google()
-//    mavenCentral()
-//}
-
 android {
     compileSdk = 31
 
@@ -28,7 +23,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -43,7 +41,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.Compose.version
+        kotlinCompilerExtensionVersion = Dependencies.Compose.Version
     }
 }
 
@@ -59,24 +57,24 @@ dependencies {
     implementation(Dependencies.Other.material)
 
     // fragment
-    implementation (Dependencies.Navigation.navigationFragment)
-    implementation (Dependencies.Navigation.navigationUi)
-    implementation (Dependencies.Other.vbPropertyDelegate)
+    implementation(Dependencies.Navigation.navigationFragment)
+    implementation(Dependencies.Navigation.navigationUi)
+    implementation(Dependencies.Other.vbPropertyDelegate)
 
     // coroutines
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 
     // di
-    implementation (Dependencies.Dagger.dagger)
-    kapt (Dependencies.Dagger.daggerCompiler)
-    implementation (Dependencies.Dagger.daggerHilt)
-    kapt (Dependencies.Dagger.hiltCompiler)
+    implementation(Dependencies.Dagger.dagger)
+    kapt(Dependencies.Dagger.daggerCompiler)
+    implementation(Dependencies.Dagger.daggerHilt)
+    kapt(Dependencies.Dagger.hiltCompiler)
     implementation(Dependencies.Dagger.hiltNavigation)
 
     // json
-    implementation( "com.squareup.moshi:moshi-kotlin:1.12.0")
-    kapt( "com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
@@ -99,9 +97,9 @@ dependencies {
     implementation(Dependencies.Compose.viewBinding)
 
     // time
-    implementation( "joda-time:joda-time:2.10.12")
+    implementation("joda-time:joda-time:2.10.12")
 
-    testImplementation ("junit:junit:4.+")
-    androidTestImplementation ("androidx.test.ext:junit:1.1.3")
+    testImplementation("junit:junit:4.+")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }

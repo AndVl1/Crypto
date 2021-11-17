@@ -33,7 +33,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ru.bmstu.mobile.crypto.R
@@ -127,7 +126,7 @@ fun CryptoList(
                     }
                     is ListScreenState.Loaded -> {
                         ListContent(
-                            content = (state.value as ListScreenState.Loaded).data.data,
+                            content = (state.value as ListScreenState.Loaded).data.values,
                             onItemSelected = { data ->
                                 onItemSelected?.invoke(
                                     data,

@@ -6,9 +6,9 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 
 // https://github.com/tehras/charts
 interface LineDrawer {
-  fun drawLine(
-    drawScope: DrawScope,
-    canvas: Canvas,
-    linePath: Path
-  )
+    fun drawLine(
+        drawScope: DrawScope,
+        canvas: Canvas,
+        linePath: Path
+    )
 }

@@ -55,7 +55,7 @@ enum class CryptoStyle {
     Red, Blue, Green, Purple, Orange
 }
 
-enum class CryptoAnimations {}
+enum class CryptoAnimations
 
 val LocalCryptoColors = staticCompositionLocalOf<CryptoColors> {
     error("No colors provided")

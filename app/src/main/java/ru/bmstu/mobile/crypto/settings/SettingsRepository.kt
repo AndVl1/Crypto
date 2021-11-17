@@ -1,10 +1,10 @@
 package ru.bmstu.mobile.crypto.settings
 
+import javax.inject.Inject
 import ru.bmstu.mobile.crypto.di.AppPreferences
 import ru.bmstu.mobile.crypto.main.CurrencyType
 import ru.bmstu.mobile.crypto.model.Currency
 import ru.bmstu.mobile.crypto.network.Repository
-import javax.inject.Inject
 
 class SettingsRepository @Inject constructor(
     private val preferences: AppPreferences,

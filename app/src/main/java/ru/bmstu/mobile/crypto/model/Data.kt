@@ -1,6 +1,5 @@
 package ru.bmstu.mobile.crypto.model
 
-
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -9,7 +8,7 @@ data class Data(
     @Json(name = "Aggregated")
     val aggregated: Boolean,
     @Json(name = "Data")
-    val `data`: List<DataX>,
+    val values: List<DataX>,
     @Json(name = "TimeFrom")
     val timeFrom: Int,
     @Json(name = "TimeTo")

@@ -3,7 +3,6 @@ package ru.bmstu.mobile.crypto.chart
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,7 +21,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import ru.bmstu.mobile.crypto.chart.linechart.LineChart
 import ru.bmstu.mobile.crypto.chart.linechart.LineChartData
@@ -34,12 +32,13 @@ import ru.bmstu.mobile.crypto.chart.linechart.yaxis.SimpleYAxisDrawer
 import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
 import ru.bmstu.mobile.crypto.extensions.toDate
 import ru.bmstu.mobile.crypto.main.ErrorScreen
+import ru.bmstu.mobile.crypto.main.ListViewModel
 import ru.bmstu.mobile.crypto.main.LoadingEvent
 import ru.bmstu.mobile.crypto.network.ListScreenState
 
 @Composable
 fun ChartScreen(
-    viewModel: ChartViewModel
+    viewModel: ListViewModel
 ) {
     val state = viewModel.cryptoHistory.collectAsState(ListScreenState.Loading)
 
@@ -58,7 +57,7 @@ fun ChartScreen(
                 )
             }
 
-            when(state.value) {
+            when (state.value) {
                 is ListScreenState.Loading -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -81,7 +80,7 @@ fun ChartScreen(
                     Row {
                         LineChart(
                             lineChartData = LineChartData(
-                                points = data.data.map {
+                                points = data.values.map {
                                     LineChartData.Point(it.high.toFloat(), it.time.toDate())
                                 },
                             ),
@@ -93,8 +92,7 @@ fun ChartScreen(
                                 .weight(1f),
                             animation = simpleChartAnimation(),
                             pointDrawer = FilledCircularPointDrawer(),
-                            lineDrawer = SolidLineDrawer(
-                            ),
+                            lineDrawer = SolidLineDrawer(),
                             xAxisDrawer = SimpleXAxisDrawer(
                                 labelRatio = 5,
                                 labelTextColor = CryptoTheme.colors.primaryText,
@@ -118,17 +116,18 @@ fun ChartScreen(
                         ),
                         modifier = Modifier.padding(bottom = CryptoTheme.shape.padding)
                     )
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(16.dp)
-                        .weight(1f))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(16.dp)
+                            .weight(1f)
+                    )
                 }
             }
-
         }
     }
 
-    LaunchedEffect(key1 = state){
+    LaunchedEffect(key1 = state) {
         viewModel.handleIntent(LoadingEvent.EnterScreen)
     }
 }

@@ -21,12 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
 
-data class MenuItemModel(
-    val title: String,
-    val currentIndex: Int = 0,
-    val values: List<String>
-)
-
 @Composable
 fun MenuItem(
     model: MenuItemModel,
@@ -97,3 +91,9 @@ fun MenuItem(
         )
     }
 }
+
+data class MenuItemModel(
+    val title: String,
+    val currentIndex: Int = 0,
+    val values: List<String>
+)

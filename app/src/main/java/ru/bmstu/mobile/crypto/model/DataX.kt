@@ -21,7 +21,7 @@ data class DataX(
     @Json(name = "low")
     val low: Double,
     @Json(name = "open")
-    val `open`: Double,
+    val openingTime: Double,
     @Json(name = "time")
     val time: Long,
     @Json(name = "volumefrom")

@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package ru.bmstu.mobile.crypto.main
 
 import android.util.Log
@@ -7,7 +9,7 @@ import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnException
 import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +18,6 @@ import ru.bmstu.mobile.crypto.base.IntentHandler
 import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.model.Currency
 import ru.bmstu.mobile.crypto.network.ListScreenState
-import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
@@ -73,7 +74,7 @@ class ListViewModel @Inject constructor(
             repository.updateCurrency(newCryptoCurrency)
             val crypto = repository.getCurrency()
             crypto.suspendOnSuccess {
-                _cryptoHistory.emit(ListScreenState.Loaded(this.data.data))
+                _cryptoHistory.emit(ListScreenState.Loaded(this.data.values))
             }.suspendOnException {
                 _cryptoHistory.emit(ListScreenState.Error)
                 Log.e("VM", "${this.message}")

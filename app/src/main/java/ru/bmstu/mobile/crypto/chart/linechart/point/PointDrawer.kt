@@ -6,9 +6,9 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 
 // https://github.com/tehras/charts
 interface PointDrawer {
-  fun drawPoint(
-    drawScope: DrawScope,
-    canvas: Canvas,
-    center: Offset
-  )
+    fun drawPoint(
+        drawScope: DrawScope,
+        canvas: Canvas,
+        center: Offset
+    )
 }
