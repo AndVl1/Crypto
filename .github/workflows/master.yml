@@ -25,8 +25,9 @@ jobs:
           KEY_JKS: ${{ secrets.SIGNING_KEY }}
         run: |
           echo $KEY_JKS | base64 -d > keystore.jks
+          ls
           ./gradlew assembleRelease \
-            -Pandroid.injected.signing.store.file=$(pwd)/keystore.jks \
+            -Pandroid.injected.signing.store.file=keystore.jks \
             -Pandroid.injected.signing.store.password=${{ secrets.KEY_STORE_PASSWORD }} \
             -Pandroid.injected.signing.key.alias=${{ secrets.ALIAS }} \
             -Pandroid.injected.signing.key.password=${{ secrets.ALIAS_PWD }} \
