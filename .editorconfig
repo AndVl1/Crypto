@@ -1,0 +1,5 @@
+root = true
+
+[*.{kt, kts}]
+max_line_length = 120
+disabled_rules = experimental:argument-list-wrapping,no-wildcard-imports

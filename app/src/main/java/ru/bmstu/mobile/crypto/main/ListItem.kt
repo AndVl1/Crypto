@@ -1,13 +1,11 @@
 package ru.bmstu.mobile.crypto.main
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -40,10 +38,10 @@ fun ListItem(
                     .padding(CryptoTheme.shape.padding),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Column(verticalArrangement = Arrangement.Top) {
+                Column(verticalArrangement = Arrangement.Top, modifier = Modifier.weight(1f)) {
                     Text(text = "${stringResource(R.string.high_price)}: ${data.high}")
                     Text(text = "${stringResource(R.string.low_price)}: ${data.low}")
-                    Text(text = "${stringResource(R.string.open_price)}: ${data.open}")
+                    Text(text = "${stringResource(R.string.open_price)}: ${data.openingTime}")
                     Text(text = "${stringResource(R.string.close_price)}: ${data.close}")
                 }
                 Text(text = "${stringResource(id = R.string.closed_at)}: ${data.time.toDate()}")

@@ -1,6 +1,7 @@
 package ru.bmstu.mobile.crypto.compose.custom
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +14,7 @@ import ru.bmstu.mobile.crypto.compose.theme.CryptoTheme
 @Composable
 fun ClickableCard(
     modifier: Modifier,
-    elevation: Dp = 2.dp,
+    elevation: Dp = 4.dp,
     shape: Shape = CryptoTheme.shape.cornerStyle,
     backgroundColor: Color = CryptoTheme.colors.secondaryBackground,
     contentColor: Color = CryptoTheme.colors.primaryText,
@@ -29,4 +30,18 @@ fun ClickableCard(
     ) {
         content.invoke()
     }
+}
+
+@Composable
+fun ColorCard(
+    color: Color,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier.size(60.dp)
+            .clickable { onClick.invoke() },
+        backgroundColor = color,
+        elevation = 8.dp,
+        shape = CryptoTheme.shape.cornerStyle,
+    ) { }
 }

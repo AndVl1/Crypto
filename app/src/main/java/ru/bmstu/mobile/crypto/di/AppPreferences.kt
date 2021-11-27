@@ -9,10 +9,18 @@ import javax.inject.Singleton
 @Singleton
 class AppPreferences @Inject constructor(@ApplicationContext context: Context) {
 
-    val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun putString(key: String, value: String) {
         prefs.edit().putString(key, value).apply()
+    }
+
+    fun putInt(key: String, value: Int) {
+        prefs.edit().putInt(key, value).apply()
+    }
+
+    fun getInt(key: String, default: Int): Int {
+        return prefs.getInt(key, default)
     }
 
     fun getString(key: String): String {

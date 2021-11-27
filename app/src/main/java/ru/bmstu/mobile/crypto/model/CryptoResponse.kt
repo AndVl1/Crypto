@@ -1,13 +1,12 @@
 package ru.bmstu.mobile.crypto.model
 
-
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class CryptoResponse(
     @Json(name = "Data")
-    val `data`: Data,
+    val values: Data,
     @Json(name = "HasWarning")
     val hasWarning: Boolean,
     @Json(name = "Message")

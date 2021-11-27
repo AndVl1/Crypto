@@ -1,11 +1,10 @@
 package ru.bmstu.mobile.crypto.main
 
+import javax.inject.Inject
 import ru.bmstu.mobile.crypto.di.AppPreferences
 import ru.bmstu.mobile.crypto.model.CryptoCurrency
 import ru.bmstu.mobile.crypto.network.ApiHelper
 import ru.bmstu.mobile.crypto.network.Repository
-import javax.inject.Inject
-
 
 class CryptoRepository @Inject constructor(
     private val apiHelper: ApiHelper,
@@ -16,7 +15,7 @@ class CryptoRepository @Inject constructor(
         from = getCryptoCurrencyType(),
         to = getRealCurrencyType(),
         limit = "20",
-        aggregate = 30
+        aggregate = preferences.getInt("DAYS", default = 30)
     )
 
     fun updateCurrency(currency: CryptoCurrency) {

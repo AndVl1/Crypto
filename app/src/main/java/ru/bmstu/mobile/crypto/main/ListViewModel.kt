@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package ru.bmstu.mobile.crypto.main
 
 import android.util.Log
@@ -7,57 +9,77 @@ import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnException
 import com.skydoves.sandwich.suspendOnSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ru.bmstu.mobile.crypto.base.IntentHandler
 import ru.bmstu.mobile.crypto.model.CryptoCurrency
-import ru.bmstu.mobile.crypto.network.LoadingState
-import javax.inject.Inject
+import ru.bmstu.mobile.crypto.model.Currency
+import ru.bmstu.mobile.crypto.network.ListScreenState
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
     private val repository: CryptoRepository
-) : ViewModel() {
+) : ViewModel(), IntentHandler<LoadingEvent> {
 
-    private val _cryptoHistory = MutableSharedFlow<LoadingState?>()
+    private val _cryptoHistory = MutableStateFlow<ListScreenState>(ListScreenState.Loading)
     val cryptoHistory = _cryptoHistory.asSharedFlow()
-    private val _currency = MutableStateFlow(CryptoCurrency.valueOf(repository.getCryptoCurrencyType()))
+    private val _cryptoCurrency = MutableStateFlow(CryptoCurrency.valueOf(repository.getCryptoCurrencyType()))
+    val cryptoCurrency = _cryptoCurrency.asStateFlow()
+    private val _currency = MutableStateFlow(Currency.valueOf(repository.getRealCurrencyType()))
     val currency = _currency.asStateFlow()
 
-    fun init() {
-        viewModelScope.launch {
-            val crypto = repository.getCurrency()
-            _currency.emit(CryptoCurrency.valueOf(repository.getCryptoCurrencyType()))
-            _cryptoHistory.emit(LoadingState.Loading)
-            crypto.suspendOnSuccess {
-                delay(1000)
-                _cryptoHistory.emit(LoadingState.Loaded(this.data.data))
-            }.suspendOnException {
-                _cryptoHistory.emit(LoadingState.Error)
-                Log.e("VM", "${this.message}")
-            }.suspendOnError {
-                _cryptoHistory.emit(LoadingState.Error)
-                Log.e("VM", "${this.statusCode}")
-            }
+    override fun handleIntent(event: LoadingEvent) {
+        when (val current = _cryptoHistory.value) {
+            is ListScreenState.Loading -> reduce(event, current)
+            is ListScreenState.Loaded -> reduce(event, current)
+            is ListScreenState.Error -> reduce(event, current)
         }
     }
 
-    fun update(currency: CryptoCurrency) {
+    private fun reduce(event: LoadingEvent, currentState: ListScreenState.Loading) {
+        when (event) {
+            is LoadingEvent.ReloadScreen -> getHistory(true, event.currency)
+            is LoadingEvent.EnterScreen -> getHistory(true)
+            else -> {}
+        }
+    }
+
+    private fun reduce(event: LoadingEvent, currentState: ListScreenState.Loaded) {
+        when (event) {
+            is LoadingEvent.ReloadScreen -> getHistory(true, newCryptoCurrency = event.currency)
+            else -> {}
+        }
+    }
+
+    private fun reduce(event: LoadingEvent, currentState: ListScreenState.Error) {
+        when (event) {
+            is LoadingEvent.ReloadScreen -> getHistory(true)
+            else -> {}
+        }
+    }
+
+    private fun getHistory(
+        needsToRefresh: Boolean = false,
+        newCryptoCurrency: CryptoCurrency = this.cryptoCurrency.value
+    ) {
         viewModelScope.launch {
-            _cryptoHistory.emit(LoadingState.Loading)
-            repository.updateCurrency(currency)
-            delay(1000)
+            if (needsToRefresh) {
+                _cryptoHistory.emit(ListScreenState.Loading)
+            }
+
+            _cryptoCurrency.emit(newCryptoCurrency)
+            repository.updateCurrency(newCryptoCurrency)
             val crypto = repository.getCurrency()
             crypto.suspendOnSuccess {
-                _cryptoHistory.emit(LoadingState.Loaded(this.data.data))
+                _cryptoHistory.emit(ListScreenState.Loaded(this.data.values))
             }.suspendOnException {
-                _cryptoHistory.emit(LoadingState.Error)
+                _cryptoHistory.emit(ListScreenState.Error)
                 Log.e("VM", "${this.message}")
             }.suspendOnError {
-                _cryptoHistory.emit(LoadingState.Error)
+                _cryptoHistory.emit(ListScreenState.Error)
                 Log.e("VM", "${this.statusCode}")
             }
         }

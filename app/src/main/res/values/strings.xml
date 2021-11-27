@@ -13,5 +13,6 @@
 
     <string name="real_currency_key" translatable="false">currency</string>
     <string name="crypto_currency_key" translatable="false">crypto</string>
-    <string name="closed_at">Дата закрытия</string>
+    <string name="closed_at">Closed at</string>
+    <string name="ui" translatable="false">Ui</string>
 </resources>

@@ -6,6 +6,6 @@ import kotlin.Long
 
 fun Long.toDate(): String {
     val date = Date(this * 1000)
-    val format = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US)
+    val format = SimpleDateFormat("dd.MM.yyyy", Locale.US)
     return format.format(date)
 }

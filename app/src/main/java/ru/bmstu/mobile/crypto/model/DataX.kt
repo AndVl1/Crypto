@@ -1,9 +1,13 @@
 package ru.bmstu.mobile.crypto.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import java.io.Serializable
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
+@Parcelize
+@Serializable
 @JsonClass(generateAdapter = true)
 data class DataX(
     @Json(name = "close")
@@ -17,11 +21,11 @@ data class DataX(
     @Json(name = "low")
     val low: Double,
     @Json(name = "open")
-    val `open`: Double,
+    val openingTime: Double,
     @Json(name = "time")
     val time: Long,
     @Json(name = "volumefrom")
     val volumefrom: Double,
     @Json(name = "volumeto")
     val volumeto: Double
-) : Serializable
+) : Parcelable
