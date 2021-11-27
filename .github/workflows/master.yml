@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ${{ secrets.KEYSTORE_REPO }}
-          token: 'aaaaaa'
+          token: ${{ secrets.KEYSTORE_ACCESS }}
           path: app/keystore
 
       - name: Build release
