@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
@@ -18,6 +20,25 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        create("release") {
+            val propsFile = file("keystore/keystore-config")
+            val props = Properties()
+            if (propsFile.exists()) {
+                props.load(propsFile.inputStream())
+                storeFile = file("${props["storeFile"]}")
+                storePassword = "${props["storePassword"]}"
+                keyAlias = "${props["keyAlias"]}"
+                keyPassword = "${props["keyPassword"]}"
+            } else {
+                storeFile = file("keystore/keystore.jks")
+                storePassword = System.getenv("KEYSTORE_KEY_PASSWORD")
+                keyAlias = System.getenv("KEYSTORE_ALIAS")
+                keyPassword = System.getenv("KEYSTORE_PASSWORD")
+            }
+        }
     }
 
     buildTypes {

@@ -20,17 +20,16 @@ jobs:
         with:
           java-version: 11
 
+      - name: Checkout keystore repo
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ secrets.KEYSTORE_REPO }}
+          token: ${{ secrets.KEYSTORE_ACCESS }}
+          path: app/keystore
+
       - name: Build release
-        env:
-          KEY_JKS: ${{ secrets.SIGNING_KEY }}
         run: |
-          echo $KEY_JKS | base64 -d > app/keystore.jks
-          ls
-          ./gradlew assembleRelease \
-            -Pandroid.injected.signing.store.file=$(pwd)/app/keystore.jks \
-            -Pandroid.injected.signing.store.password=${{ secrets.KEY_STORE_PASSWORD }} \
-            -Pandroid.injected.signing.key.alias=${{ secrets.ALIAS }} \
-            -Pandroid.injected.signing.key.password=${{ secrets.ALIAS_PWD }} \
+          ./gradlew assembleRelease
 
       - name: Copy artifacts
         id: artifacts_copy
