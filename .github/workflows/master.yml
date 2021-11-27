@@ -3,7 +3,7 @@ name: master-branch
 on:
   push:
     branches:
-      - 'master'
+      - 'test'
 
 env:
   KEYSTORE_PASSWORD: ${{ secrets.ALIAS_PWD }}
@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ${{ secrets.KEYSTORE_REPO }}
-          token: ${{ secrets.KEYSTORE_ACCESS }}
+          token: 'aaaaaa'
           path: app/keystore
 
       - name: Build release
