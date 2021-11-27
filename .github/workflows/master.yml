@@ -1,0 +1,43 @@
+name: master-branch
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  build-signed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Build release
+        run: |
+          ./gradlew assembleRelease
+
+      - name: Sign apk
+        id: sign_apk_release
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.ALIAS_PWD }}
+
+      - name: Copy artifacts
+        id: artifacts_copy
+        run: |
+          mkdir artifacts
+          cp ${{ steps.sign_apk_release.outputs.signedReleaseFile }} artifacts/app-release.apk
+          echo "::set-output name=path::artifacts/"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: ${{ steps.artifacts_copy.outputs.path }}
