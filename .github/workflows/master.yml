@@ -5,6 +5,11 @@ on:
     branches:
       - 'master'
 
+env:
+  KEYSTORE_PASSWORD: ${{ secrets.ALIAS_PWD }}
+  KEYSTORE_ALIAS: ${{ secrets.ALIAS }}
+  KEYSTORE_KEY_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+
 jobs:
   build-signed:
     runs-on: ubuntu-latest
@@ -16,8 +21,10 @@ jobs:
           java-version: 11
 
       - name: Build release
+        env:
+          KEY_JKS: ${{ secrets.SIGNING_KEY }}
         run: |
-          echo ${{ secrets.SIGNING_KEY }} | base64 -d > keystore.jks
+          echo $KEY_JKS | base64 -d > keystore.jks
           ./gradlew assembleRelease \
             -Pandroid.injected.signing.store.file=$(pwd)/keystore.jks \
             -Pandroid.injected.signing.store.password=${{ secrets.KEY_STORE_PASSWORD }} \
