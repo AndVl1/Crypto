@@ -3,7 +3,7 @@ name: master-branch
 on:
   push:
     branches:
-      - 'test'
+      [test]
 
 env:
   KEYSTORE_PASSWORD: ${{ secrets.ALIAS_PWD }}
